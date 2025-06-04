@@ -14,3 +14,8 @@ A digital storage system similar to that of GoogleDrive and OneDrive.
 - [ ] User can filter files by their extension
 - [ ] User can preview files when they click on them
 - [ ] User can share files with other users
+
+## Tech Stack
+- Next.js
+- Jest for testing
+- TBD for storage, auth, and backend
