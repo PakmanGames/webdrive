@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
@@ -14,6 +14,7 @@ const formSchema = z.object({
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 type FormType = "sign-in" | "sign-up";
 
 const AuthForm = ({ type }: { type: FormType }) => {
@@ -72,6 +73,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
                         {isLoading && <Image src={`/assets/icons/loader.svg`} alt="loader" width={24} height={24} className="ml-2 animate-spin" />}
                     </Button>
                     {errorMessage && <p className="error-message">*{errorMessage}</p>}
+                    <div className="body-2 flex justify-center">
+                        <p className="text-light-100">{type === "sign-in" ? "Don't have an account?" : "ALready have an account?"}</p>
+                        <Link href={type === "sign-in" ? "/sign-up" : "sign-in"} className="ml-1 font-medium text-brand">
+                            {type === "sign-in" ? "Sign Up" : "Sign In"}
+                        </Link>
+                    </div>
                 </form>
             </Form>
             {/* OTP Verification Logic Here */}
