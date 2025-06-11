@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 import { ID, Query } from "node-appwrite";
 import { appwriteConfig } from "@/lib/appwrite/config";
