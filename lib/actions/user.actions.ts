@@ -5,6 +5,7 @@ import { appwriteConfig } from "@/lib/appwrite/config";
 import { createAdminClient } from "@/lib/appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 // 1. User enters full name and email
 // 2. Check if the user already exists using the email (determines if need to create new user document)
@@ -59,7 +60,7 @@ export const createAccount = async ({ fullName, email }: { fullName: string; ema
         await databases.createDocument(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, ID.unique(), {
             fullName,
             email,
-            avatar: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+            avatar: avatarPlaceholderUrl,
             accountId,
         });
     }
