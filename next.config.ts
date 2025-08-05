@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
                 pathname: "/free-psd/**",
                 search: "",
             },
+            {
+                protocol: "https",
+                hostname: "cloud.appwrite.io",
+            },
         ],
     },
 };
