@@ -6,6 +6,7 @@ import { createAdminClient, createSessionClient } from "@/lib/appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { avatarPlaceholderUrl } from "@/constants";
+import { redirect } from "next/navigation";
 
 // 1. User enters full name and email
 // 2. Check if the user already exists using the email (determines if need to create new user document)
@@ -99,4 +100,17 @@ export const getCurrentUser = async () => {
     }
 
     return parseStringify(user.documents[0]);
+};
+
+export const signOutUser = async () => {
+    const { account } = await createSessionClient();
+
+    try {
+        await account.deleteSession("current");
+        (await cookies()).delete("appwrite-session");
+    } catch (error) {
+        handleError(error, "Failed to sign out user");
+    } finally {
+        redirect("/sign-in");
+    }
 };
