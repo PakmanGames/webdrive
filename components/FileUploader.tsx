@@ -1,8 +1,9 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { MouseEvent, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
-import { cn, getFileType } from "@/lib/utils";
+import Thumbnail from "@/components/Thumbnail";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
 
 interface Props {
@@ -19,6 +20,11 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const handleRemoveFile = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, fileName: string) => {
+    e.stopPropagation();
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
+
   return (
     <div {...getRootProps()} className="cursor-pointer">
       <input {...getInputProps()} />
@@ -34,7 +40,15 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
 
             return (
               <li key={`${file.name}-${index}`} className="uploader-preview-item">
-                test
+                <div className="flex items-center gap-3">
+                  <Thumbnail type={type} extension={extension} url={convertFileToUrl(file)} />
+                  <div className="preview-item-name">
+                    {file.name}
+                    <Image src="/assets/icons/file-loader.gif" width={80} height={26} alt="loader" />
+                  </div>
+                </div>
+
+                <Image src="/assets/icons/remove.svg" width={24} height={24} alt="remove" onClick={(e) => handleRemoveFile(e, file.name)} />
               </li>
             );
           })}
