@@ -66,11 +66,7 @@ export const getFiles = async () => {
 
     const queries = createQueries(currentUser);
 
-    console.log({ currentUser, queries });
-
     const files = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, queries);
-
-    console.log({ files });
 
     return parseStringify(files);
   } catch (error) {
@@ -106,6 +102,24 @@ export const updateFileUsers = async ({ fileId, emails, path }: UpdateFileUsersP
     revalidatePath(path);
 
     return parseStringify(updatedFile);
+  } catch (error) {
+    handleError(error, "Failed to share file");
+  }
+};
+
+export const deleteFile = async ({ fileId, bucketFileId, path }: DeleteFileProps) => {
+  const { databases, storage } = await createAdminClient();
+
+  try {
+    const deletedFile = await databases.deleteDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, fileId);
+
+    if (deletedFile) {
+      await storage.deleteFile(appwriteConfig.bucketId, bucketFileId);
+    }
+
+    revalidatePath(path);
+
+    return parseStringify("success");
   } catch (error) {
     handleError(error, "Failed to share file");
   }
