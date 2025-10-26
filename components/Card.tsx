@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Models } from "node-appwrite";
 import React from "react";
 import Thumbnail from "@/components/Thumbnail";
+import ActionsDropdown from "@/components/ActionDropdown";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "@/components/FormattedDateTime";
 
@@ -11,7 +12,7 @@ const Card = ({ file }: { file: Models.Document }) => {
       <div className="flex justify-between">
         <Thumbnail type={file.type} extension={file.extension} url={file.url} className="!size-20" imageClassName="!size-11" />
         <div className="flex flex-col items-end justify-between">
-          ActionsDropdownComponent
+          <ActionsDropdown file={file} />
           <p className="body-1">{convertFileSize(file.size)}</p>
         </div>
       </div>
